@@ -25,6 +25,7 @@ function randomInt(min, max){
 // for debug
 function myTypeOf(value){
 	if (typeof(value) != 'object') return typeof(value);
+	if (value === null) return 'null';
 	if (Array.isArray(value)) return 'Array';
 	if (value.textContent != undefined) return 'Node';
 	return 'object';
@@ -44,6 +45,7 @@ function row(cell){
 function findCell(col, row){
 	for (let cell of document.getElementsByClassName('col' + col))
 		if (cell.classList.contains('row' + row)) return cell;
+	return null;
 }
 
 function processCell(target, source){
@@ -109,11 +111,38 @@ function makeNewTile(){
 	freeCells[cellIndex].style.backgroundColor = colors[randomInt(0, 9)];
 }
 
+// loose condition
+function isLost(){
+	for (let cell of document.getElementsByTagName('td')){
+		if (cell.textContent === '') return false;
+		let neighbours = []
+		neighbours.push(findCell(col(cell), row(cell) - 1));
+		neighbours.push(findCell(col(cell), row(cell) + 1));
+		neighbours.push(findCell(col(cell) - 1, row(cell)));
+		neighbours.push(findCell(col(cell) + 1, row(cell)));
+		for (let n of neighbours){
+			console.log('Type of n: ' + myTypeOf(n));
+			if (n != null &&
+				(n.textContent == cell.textContent ||
+					n.style.backgroundColor == cell.style.backgroundColor)){
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+function loose(){
+	window.removeEventListener('keypress', (e) => {});
+	alert('Вы проиграли!');
+}
+
 function up(){
 	let movedAnything = false;
 	for (let col = 1; col <= fieldWidth; ++col)
 		movedAnything = processLine(col, true, true) || movedAnything;
 	if (movedAnything) makeNewTile();
+	if (isLost()) loose();
 }
 
 function down(){
@@ -121,6 +150,7 @@ function down(){
 	for (let col = 1; col <= fieldWidth; ++col)
 		movedAnything = processLine(col, true, false) || movedAnything;
 	if (movedAnything) makeNewTile();
+	if (isLost()) loose();
 }
 
 function left(){
@@ -128,6 +158,7 @@ function left(){
 	for (let row = 1; row <= fieldWidth; ++row)
 		movedAnything = processLine(row, false, true) || movedAnything;
 	if (movedAnything) makeNewTile();
+	if (isLost()) loose();
 }
 
 function right(){
@@ -135,6 +166,7 @@ function right(){
 	for (let row = 1; row <= fieldWidth; ++row)
 		movedAnything = processLine(row, false, false) || movedAnything;
 	if (movedAnything) makeNewTile();
+	if (isLost()) loose();
 }
 
 window.addEventListener("keypress", (e) => {
@@ -151,6 +183,8 @@ window.addEventListener("keypress", (e) => {
 		if (cell.classList.contains("col4")){console.log(str); str = '';}
 	}
 });
+
+
 
 for (let i = 0; i < countOfTilesInTheBeginning; ++i) makeNewTile();
 
