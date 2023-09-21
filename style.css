@@ -11,15 +11,21 @@
 	#score.dark-mode {
 		color: black;
 	}
-	#dark-mode-switcher {
+	.button {
 		color: black;
 		border: white;
 		background-color: #888;
 	}
-	#dark-mode-switcher.dark-theme {
+	.button.dark-mode {
 		color: white;
 		border: 1px solid black;
 		background-color: #404040;
+	}
+	#colors-regulator-value {
+		color: #ccc;
+	}
+	#colors-regulator-value.dark-mode {
+		color: black;
 	}
 }
 
@@ -36,12 +42,12 @@
 	#score.dark-mode {
 		color: #ccc;
 	}
-	#dark-mode-switcher {
+	.button {
 		color: white;
 		border: 1px solid black;
 		background-color: #404040;
 	}
-	#dark-mode-switcher.dark-theme {
+	.button.dark-mode {
 		color: black;
 		border: white;
 		background-color: #888;
@@ -66,7 +72,8 @@ td {
 	background-color: lightblue;
 }
 
-#dark-mode-switcher {
+.button {
 	border-radius: 20px;
 	padding: 5px;
+	cursor: pointer;
 }

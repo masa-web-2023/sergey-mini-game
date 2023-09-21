@@ -6,7 +6,7 @@
 		<title>Document</title>
 		<link rel="stylesheet" href="style.css"/>
 	</head>
-	<span>
+	<body>
 		<div id="all-page">
 			<p id="score">Счёт: <span id="score-itself">0</span></p>
 			<table>
@@ -35,7 +35,12 @@
 					<td class="row4 col4"></td>
 				</tr>
 			</table>
-			<p><span id="dark-mode-switcher">Тёмный режим</span></p>
+			<p>
+				<span id="dark-mode-switcher" class="button">Тёмный режим</span>
+				<span class="colors-regulator button" id="minus">-</span>
+				<span id="colors-regulator-value">10</span>
+				<span class="colors-regulator button" id="plus">+</span>
+			</p>
 		</div>
 		
 		<script type="text/javascript" src="script.js"></script>

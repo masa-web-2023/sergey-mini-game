@@ -108,7 +108,8 @@ function makeNewTile(){
 	}
 	cellIndex = randomInt(0, freeCells.length);
 	freeCells[cellIndex].textContent = '2';
-	freeCells[cellIndex].style.backgroundColor = colors[randomInt(0, 9)];
+	freeCells[cellIndex].style.backgroundColor =
+		colors[randomInt(0, Number(document.getElementById('colors-regulator-value').textContent))];
 }
 
 // loose condition
@@ -184,13 +185,40 @@ window.addEventListener("keypress", (e) => {
 	}
 });
 
-
-
 for (let i = 0; i < countOfTilesInTheBeginning; ++i) makeNewTile();
 
 // dark mode
 document.getElementById('dark-mode-switcher').addEventListener('click', (event) => {
 	document.body.classList.toggle('dark-mode');
 	document.getElementById('score').classList.toggle('dark-mode');
-	document.getElementById('dark-mode-switcher').classList.toggle('dark-mode');
-})
+	document.getElementById('colors-regulator-value').classList.toggle('dark-mode');
+	for (let button of document.getElementsByClassName('button'))
+		button.classList.toggle('dark-mode');
+});
+
+// change colors count
+document.getElementById('minus').addEventListener('click', (event) => {
+	let minus = document.getElementById('minus');
+	let val = document.getElementById('colors-regulator-value');
+	let plus = document.getElementById('plus');
+
+	if (minus.classList.contains('disabled')) return;
+	val.textContent -= 1;
+	if (val.textContent == 1) minus.classList.add('disabled');
+	plus.classList.remove('disabled');
+
+	for (let cell of document.getElementsByTagName('td'))
+		if (cell.style.backgroundColor == colors[val.textContent] && cell.textContent != '')
+			cell.style.backgroundColor = colors[randomInt(0, val.textContent - 1)];
+});
+
+document.getElementById('plus').addEventListener('click', (event) => {
+	let minus = document.getElementById('minus');
+	let val = document.getElementById('colors-regulator-value');
+	let plus = document.getElementById('plus');
+
+	if (plus.classList.contains('disabled')) return;
+	val.textContent = Number(val.textContent) + 1;
+	if (val.textContent == 10) plus.classList.add('disabled');
+	minus.classList.remove('disabled');
+});
