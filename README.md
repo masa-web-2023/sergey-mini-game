@@ -1,5 +1,8 @@
 # sergey-mini-game
+
 Like 2048, but with colors
+
+[Link to the game](https://masa-web-2023.github.io/sergey-mini-game/)
 
 ## Help
 
