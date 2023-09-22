@@ -85,7 +85,7 @@ function processLine(number, vertical, direction){
 			  typeof(direction) + ') instead of (number, boolean, boolean)');
 	let line = Array.from(document.getElementsByClassName((vertical? 'col': 'row') + number));
 	let logLine = '';
-	for (let a of line) logLine += a.textContent + ' ';
+	for (let a of line) logLine += a.textContent != ''? a.textContent: '0' + ' ';
 	if (!direction) line.reverse();
 	console.log('processLine: ' + logLine);
 	let movedAnything = false; // if no tiles moved, we will not make new one
@@ -122,7 +122,6 @@ function isLost(){
 		neighbours.push(findCell(col(cell) - 1, row(cell)));
 		neighbours.push(findCell(col(cell) + 1, row(cell)));
 		for (let n of neighbours){
-			console.log('Type of n: ' + myTypeOf(n));
 			if (n != null &&
 				(n.textContent == cell.textContent ||
 					n.style.backgroundColor == cell.style.backgroundColor)){

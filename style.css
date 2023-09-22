@@ -52,6 +52,12 @@
 		border: white;
 		background-color: #888;
 	}
+	#colors-regulator-value {
+		color: black;
+	}
+	#colors-regulator-value.dark-mode {
+		color: #ccc;
+	}
 }
 
 #all-page {
