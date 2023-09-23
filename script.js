@@ -24,11 +24,17 @@ function randomInt(min, max){
 
 // for debug
 function myTypeOf(value){
-	if (typeof(value) != 'object') return typeof(value);
+	if (typeof value != 'object') return typeof value;
 	if (value === null) return 'null';
 	if (Array.isArray(value)) return 'Array';
 	if (value.textContent != undefined) return 'Node';
 	return 'object';
+}
+
+function module(value){
+	if (myTypeOf(value) != 'number') alert('Trying to obtain module of ' + myTypeOf(value));
+	if (value < 0) return -value;
+	return value;
 }
 
 function col(cell){
@@ -183,6 +189,25 @@ window.addEventListener("keypress", (e) => {
 		if (cell.classList.contains("col4")){console.log(str); str = '';}
 	}
 });
+
+// touchscreen support
+let touchX = null, touchY = null;
+document.addEventListener("touchstart", (event) => {
+	touchX = event.changedTouches[0].pageX;
+	touchY = event.changedTouches[0].pageY;
+});
+document.addEventListener('touchend', (event) => {
+	if (touchX === null || touchY === null) return;
+	const xDelta = event.changedTouches[0].pageX - touchX;
+	const yDelta = event.changedTouches[0].pageY - touchY;
+	const minToNotice = 10; // minimal distance a finger must move to count this as a swipe.
+	// mabye use precent of screen size?
+	if (module(xDelta) >= minToNotice && module(xDelta) > module(yDelta)){
+		xDelta > 0? right(): left();
+		return;
+	}
+	if (module(yDelta) >= minToNotice){yDelta > 0? down(): up(); return;}
+})
 
 for (let i = 0; i < countOfTilesInTheBeginning; ++i) makeNewTile();
 
