@@ -74,8 +74,10 @@ function processCell(target, source){
 		target.textContent = Number(target.textContent) + Number(source.textContent);
 		source.textContent = '';
 		source.style.backgroundColor = 'lightblue';
-		score = document.getElementById('score-itself');
-		score.textContent = Number(score.textContent) + Number(target.textContent);
+		let score = document.getElementById('score-itself');
+		let colors = document.getElementById('colors-regulator-value').textContent;
+		console.log("score: ", colors / 10, Math.pow(target.textContent, colors / 10), Math.round(4.5));
+		score.textContent = Number(score.textContent) + Math.round(Math.pow(target.textContent, colors / 10));
 		return 'MERG';
 	}
 	return 'NONE';
@@ -176,17 +178,16 @@ function right(){
 }
 
 window.addEventListener("keypress", (e) => {
-	console.log(e.code);
-	switch (e.code){
-		case "ArrowUp"   : case "KeyW": up(); break;
-		case "ArrowDown" : case "KeyS": down(); break;
-		case "ArrowLeft" : case "KeyA": left(); break;
-		case "ArrowRight": case "KeyD": right();
-	}
 	for (let cell of document.getElementsByTagName('td')){
 		var str;
 		str += cell.textContent + ' ';
 		if (cell.classList.contains("col4")){console.log(str); str = '';}
+	}
+	switch (e.code){
+		case "KeyW": up();   break;
+		case "KeyS": down(); break;
+		case "KeyA": left(); break;
+		case "KeyD": right();
 	}
 });
 
@@ -228,7 +229,7 @@ document.getElementById('minus').addEventListener('click', (event) => {
 
 	if (minus.classList.contains('disabled')) return;
 	val.textContent -= 1;
-	if (val.textContent == 1) minus.classList.add('disabled');
+	if (val.textContent == 2) minus.classList.add('disabled');
 	plus.classList.remove('disabled');
 
 	for (let cell of document.getElementsByTagName('td'))
