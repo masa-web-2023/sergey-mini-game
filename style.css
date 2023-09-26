@@ -78,6 +78,14 @@ td {
 	background-color: lightblue;
 }
 
+td.medium-font {
+	font-size: 25px;
+}
+
+td.small-font {
+	font-size: 15px;
+}
+
 .button {
 	border-radius: 20px;
 	padding: 5px;

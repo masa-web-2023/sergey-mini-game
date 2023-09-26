@@ -54,6 +54,26 @@ function findCell(col, row){
 	return null;
 }
 
+function mergeCells(target, source){
+	console.log('merge ' + Array.from(target.classList).join() +
+		        ' and ' + Array.from(source.classList).join());
+	target.textContent = Number(target.textContent) + Number(source.textContent);
+	if (target.textContent >= 10000){
+		target.classList.remove('medium-font');
+		target.classList.add('small-font');
+	}
+	else if (target.textContent >= 100) target.classList.add('medium-font');
+	source.textContent = '';
+	source.style.backgroundColor = 'lightblue';
+	source.classList.remove('small-font')
+	source.classList.remove('medium-font');
+	let score = document.getElementById('score-itself');
+	let colors = document.getElementById('colors-regulator-value').textContent;
+	console.log("score: ", colors / 10, Math.pow(target.textContent, colors / 10), Math.round(4.5));
+	score.textContent = Number(score.textContent) +
+	                    Math.round(Math.pow(target.textContent, colors / 10));
+}
+
 function processCell(target, source){
 	if (Array.from(target.classList).join() === Array.from(source.classList).join())
 		alert('processing cell ' + col(target) + 'x' + row(target) + ' on itself');
@@ -64,20 +84,20 @@ function processCell(target, source){
 		target.style.backgroundColor = source.style.backgroundColor;
 		source.textContent = '';
 		source.style.backgroundColor = 'lightblue';
+		if (source.classList.contains('small-font')){
+			target.classList.add('small-font');
+			source.classList.remove('small-font');
+		}
+		else if (source.classList.contains('medium-font')){
+			target.classList.add('medium-font');
+			source.classList.remove('medium-font');
+		}
 		return 'MOVE';
 	}
 	if (target.textContent !== '' &&
 	    (target.textContent === source.textContent ||
 	     target.style.backgroundColor == source.style.backgroundColor)){
-		console.log('merge ' + Array.from(target.classList).join() +
-		            ' and ' + Array.from(source.classList).join());
-		target.textContent = Number(target.textContent) + Number(source.textContent);
-		source.textContent = '';
-		source.style.backgroundColor = 'lightblue';
-		let score = document.getElementById('score-itself');
-		let colors = document.getElementById('colors-regulator-value').textContent;
-		console.log("score: ", colors / 10, Math.pow(target.textContent, colors / 10), Math.round(4.5));
-		score.textContent = Number(score.textContent) + Math.round(Math.pow(target.textContent, colors / 10));
+		mergeCells(target, source);
 		return 'MERG';
 	}
 	return 'NONE';
